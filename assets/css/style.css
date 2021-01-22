@@ -1,0 +1,142 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #141e30;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(#141e30,
+    #243b55);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(#141e30,
+    #243b55);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+hr {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+canvas {
+  display: block;
+  position: relative;
+  zindex: 1;
+  pointer-events: none;
+}
+
+.load-btn,
+.save-btn,
+.reset-btn {
+  color: white;
+}
+
+.delete-entry {
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+  font-weight: bold;
+}
+
+#clear-page {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.jumbotron {
+  background: transparent !important;
+}
+
+button {
+  display: block;
+}
+
+hr {
+  background-color: white;
+  border-color: white;
+}
+
+.alert {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#chance,
+#count {
+  word-wrap: break-word;
+}
+
+.icon-large {
+  font-size: 24px;
+  margin-bottom: 1px;
+}
+
+.jumbotron-fluid {
+  padding: 20px;
+  margin-bottom: -5px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.title, .powered-by {
+  font-family: "Lobster", cursive;
+}
+
+#total-entries {
+  font-size: 30px;
+}
+
+#winner {
+  font-size: 56px;
+}
+
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+  background: linear-gradient(#141e30,
+    #243b55);
+  width: 16px
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+  background: linear-gradient(#141e30,
+    #243b55);
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+  display: none
+}
+
+@media screen and (max-width: 600px) {
+  .alert {
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .delete-entry {
+    font-size: 10px;
+  }
+
+  #chance,
+  #count {
+    font-size: 20px;
+  }
+
+  #winner,
+  #total-entries {
+    font-size: 30px;
+  }
+}

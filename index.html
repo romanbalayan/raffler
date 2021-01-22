@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Raffle-2021</title>
+  </head>
+
+  <body class="background">
+    <div class="jumbotron-fluid jumbo">
+      <h1 class="text-center title text-light">And the winner is...</h1>
+    </div>
+    <div class="container">
+      <h2 id="winner" class="text-center my-3"></h2>
+      <!--START FORM-->
+      <div class="row justify-content-center m-3">
+        <div class="col-md-3 col-3">
+          <button id="pick-winner" class="btn btn-outline-primary" disabled="disabled" >
+            <i class="fas fa-dice"></i>&nbsp<span id="paeklat">Draw Winner</span>
+          </button>
+        </div>
+        <div class="col-md-3 col-3">
+          <button id="remove-winner" class="btn btn-outline-warning" disabled="disabled">
+            <i class="fas fa-times"></i> &nbsp Remove Winner
+          </button>
+        </div>
+        <div class="col-md-3 col-3">
+          <button id="thankyou-next" class="btn btn-outline-success" disabled="disabled">
+            <i class="fas fa-pause-circle"></i> &nbsp Thank you, next.
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-12">
+          <!--START DISPLAY DATA-->
+          <div class="pad">
+            <h2 id="total-entries" class="text-center mb-4"></h2>
+            <div class="row justify-content-center">
+              <div class="col-md-7 col-8">
+                <h3 id="count" class="text-center text-light"></h3>
+              </div>
+              <div class="col-md-3 col-4">
+                <h3 id="chance" class="text-center text-light"></h3>
+              </div>
+            </div>
+          </div>
+          <!--END DISPLAY DATA-->
+        </div>
+      </div>
+      <!--END ROW-->
+    </div>
+
+    <!--START LOAD MODAL-->
+    <div class="modal load-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-center">Upload Raffle Entries</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <input type="file" id="fileinput"/>
+            <div class="load-msg"></div>
+            <div class="modal-footer load-footer">
+              <button class="btn-secondary btn load-entries" onclick="handleFileSelect();">
+                Load Raffle
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--START RESET MODAL-->
+    <div class="modal reset-modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-center">Success!</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Raffle entries have been cleared.
+            </p>
+            <div class="reset-msg"></div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-danger"
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!--START BUTTONS ROW-->
+    <div class="row justify-content-center">
+      <button class="ml-2 text-center mt-2 btn btn-outline-primary load-btn">
+        <i class="fas fa-download"></i>
+        Load
+      </button>
+      <button id="reset" class="ml-2 mt-2 btn btn-outline-danger reset-btn">
+        <i class="fas fa-trash-alt"></i>
+        Reset
+      </button>
+    </div>
+    <!--END BUTTONS ROW-->
+
+
+    <div class="container mt-3">
+      <div class="row justify-content-center">
+        <div class="col-md-2">
+          <label for="slider1value" class="badge badge-dark">Duration:</label>
+          <input type="text" id="slider1value" readonly style="margin-left:36px; width:30px; font-weight:bold;">
+        </div>
+        <div class="col-md-6">
+          <div id="duration"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mt-4">
+      <div class="row justify-content-center">
+        <div class="col-md-2">
+          <label for="slider2value" class="badge badge-dark">Suspense:</label>
+          <input type="text" id="slider2value" readonly style="margin-left:10px; width:30px; font-weight:bold;">
+        </div>
+        <div class="col-md-6">
+          <div id="delay"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="text-center p-1 mt-2 sticky-footer">
+      <h6 class="text-light powered-by">Raffler 2021 💚</h6>
+    </footer>
+
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js"></script>
+    <script src="assets/javascript/app.js"></script>
+  </body>
+</html>
