@@ -206,7 +206,7 @@ const pickWinner = () => {
     $('#thankyou-next').prop('disabled', false);
     $('#remove-winner').prop('disabled', false);
     confetti.start();
-  }, duration*1000 + delay*1000 );
+  }, duration*1000 + delay*1000 + 450 );
 
 };
 
