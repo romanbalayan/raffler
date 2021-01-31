@@ -13,6 +13,23 @@ $(document).ready(function() {
   validate();
 });
 
+// save image for winner
+function saveAs(uri, filename) {
+  let link = document.createElement('a');
+  if (typeof link.download === 'string') {
+    link.href = uri;
+    link.download = filename;
+    //Firefox requires the link to be in the body
+    document.body.appendChild(link);
+    //simulate click
+    link.click();
+    //remove the link when done
+    document.body.removeChild(link);
+  } else {
+    window.open(uri);
+  }
+}
+
 // validate upon page load to handle errors
 function validate() {
   $('#entries, #entrant-name').keyup(function() {
@@ -175,7 +192,7 @@ const pickWinner = () => {
     currentWinner = drawnEntry;
     $('#pick-winner').prop('disabled', true);
     $('#thankyou-next').prop('disabled', false);
-    $('#remove-winner').prop('disabled', false);
+    $('#remove-winner').prop('disabled', true);
     confetti.start();
   }, duration*1000 + delay*1000 + 650 );
 
@@ -313,23 +330,38 @@ $('#pick-winner').on('click', event => {
 
 $('#remove-winner').on('click', event => {
   event.preventDefault();
+
   if (winnerHasBeenDrawn && currentWinner != null) {
     winnerHasBeenDrawn = false;
     removeWinner({target: {id: currentWinner}});
     currentWinner = null;
-    $('#thankyou-next').click();
+    drawnEntry = null;
   }
+
+  confetti.stop();
+  $('#pick-winner').prop('disabled', false);
+  $('#remove-winner').prop('disabled', true);
+  $('#thankyou-next').prop('disabled', true);
+
 });
 
 $('#thankyou-next').on('click', event => {
   event.preventDefault();
-  confetti.stop();
-  winnerHasBeenDrawn = false;
-  currentWinner = null;
-  drawnEntry = null;
   $('#pick-winner').prop('disabled', false);
-  $('#remove-winner').prop('disabled', true);
+  $('#remove-winner').prop('disabled', false);
   $('#thankyou-next').prop('disabled', true);
+
+  html2canvas($("#winner-container"), {
+    onrendered: function(canvas) {
+      theCanvas = canvas;
+      document.body.appendChild(canvas);
+      // Convert and download as image
+      saveAs(canvas.toDataURL(), 'tiwala-grand-winners.png');
+      // Clean up
+      document.body.removeChild(canvas);
+    }
+  });
+
 });
 
 // resets everything, all current entries and clears local storage.

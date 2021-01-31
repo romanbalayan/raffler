@@ -14,16 +14,21 @@
   </head>
 
   <body class="background">
-    <div class="header">
-      <div class="col-md-12">
-        <img id="header-image" src="assets/images/Raffle-Header.png" alt="My image" style="max-width:100%; max-height: auto; border-radius: 10px;"/>
+    <div id="winner-container">
+      <div class="header">
+        <div class="col-md-12">
+          <img id="header-image" src="assets/images/Raffle-Header.png" alt="My image" style="max-width:100%; max-height: auto; border-radius: 10px;"/>
+        </div>
+      </div>
+      <div class="jumbotron-fluid jumbo" style="padding-bottom: 0px;">
+        <h1 class="text-center title text-light">And the winner is...</h1>
+      </div>
+      <div>
+        <h2 id="winner" class="text-center my-3"></h2>
       </div>
     </div>
-    <div class="jumbotron-fluid jumbo" style="padding-bottom: 0px;">
-      <h1 class="text-center title text-light">And the winner is...</h1>
-    </div>
+
     <div class="container">
-      <h2 id="winner" class="text-center my-3"></h2>
       <div class="row justify-content-center m-3 text-center">
         <div class="col-md-3 col-3">
           <button id="pick-winner" class="btn btn-outline-primary" style="color: white;" disabled="disabled" >
@@ -37,7 +42,7 @@
         </div>
         <div class="col-md-3 col-3">
           <button id="thankyou-next" class="btn btn-outline-success" style="color: white;" disabled="disabled">
-            <i class="fas fa-pause-circle"></i> &nbsp Thank you, next.
+            <i class="fas fa-save"></i> &nbsp Save Winner
           </button>
         </div>
       </div>
@@ -164,6 +169,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
     <script src="assets/javascript/confetti.js"></script>
     <script src="assets/javascript/app.js"></script>
   </body>
