@@ -89,35 +89,6 @@ const handleOdds = () => {
     obj[item] = (obj[item] || 0) + 1;
     return obj;
   }, {});
-  // This counts every instance of a string in the randomizedArray.
-  // Returns an object like this {josh: 2, kenny: 2}
-  const totalValues = Object.values(entrantTotal);
-  // grabs only the values for each entrant
-  totalValues.forEach(value => {
-    // loops over values to calculate odds and print them to page.
-    const raffleOdds = ((value / raffleClone.length) * 100).toFixed(2);
-    if (raffleOdds > 50) {
-      $('#chance')
-        .append(
-          `<hr>
-           <div class="percentage m-1 ${className(
-            'black'
-          )}">${raffleOdds}%</div>`
-        )
-        .addClass(`border-left border-right border-light`);
-    }  else {
-      $('#chance')
-        .append(
-          `<hr>
-          <div class="percentage m-1 ${className(
-            'black'
-          )}">${raffleOdds}%</div>`
-        )
-        .addClass(`border-left border-right border-light`);
-    }
-  });
-  $('#chance')
-    .append(`<hr>`);
   return {
     entrantTotal,
     raffleClone
@@ -145,7 +116,7 @@ const handleCount = (entrantTotal, raffleClone) => {
     if (raffleClone.length > 0) {
       $('#count')
         .append(
-          `<hr><span id="${id}" class="delete-entry m-1 ml-3 float-left btn btn-sm btn-outline-danger" value="${id}">X</span><div class="names m-1 ${className(
+          `<hr><span id="${id}" class="delete-entry m-1 ml-1 float-left btn btn-sm btn-outline-danger" value="${id}">X</span><div class="names m-1 ${className(
             'black'
           )}">${count}</div>`
         )
@@ -198,7 +169,7 @@ const pickWinner = () => {
 
   window.setTimeout(() => {
     $('#winner').html(
-      `<div class="${className('green')}">${ drawnEntry }!!</div>`
+      `<div class="${className('blue')}">${ drawnEntry }!!</div>`
     );
     winnerHasBeenDrawn = true;
     currentWinner = drawnEntry;
@@ -215,7 +186,7 @@ const resetEntries = () => {
   raffleArray = [];
   winnerHasBeenDrawn = false;
   currentWinner = null;
-  $('#total-entries, #count, #chance, #winner').empty();
+  $('#total-entries, #count, #winner').empty();
   $('#pick-winner').prop('disabled', true);
   $('#remove-winner').prop('disabled', true);
   $('#thankyou-next').prop('disabled', true);
@@ -223,7 +194,7 @@ const resetEntries = () => {
 
 // function to remove winner
 const removeWinner = (event) => {
-  $('#count, #chance, #winner').empty();
+  $('#count, #winner').empty();
   const { id } = event.target;
   const array = [...raffleArray];
   raffleArray = array.filter(name => name !== id);

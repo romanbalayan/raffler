@@ -4,25 +4,23 @@ body {
   flex-direction: column;
   min-height: 100vh;
   background: #141e30;
-  /* fallback for old browsers */
+  /*!* fallback for old browsers *!*/
   background: -webkit-linear-gradient(#141e30,
     #243b55);
-  /* Chrome 10-25, Safari 5.1-6 */
+  /*!* Chrome 10-25, Safari 5.1-6 *!*/
   background: linear-gradient(#141e30,
     #243b55);
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.header {
+  padding-top: 20px;
+  max-width: 100%;
+}
+
 hr {
   margin-top: 5px;
   margin-bottom: 5px;
-}
-
-canvas {
-  display: block;
-  position: relative;
-  zindex: 1;
-  pointer-events: none;
 }
 
 .load-btn,
