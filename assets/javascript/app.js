@@ -1,15 +1,15 @@
 //Override Math.random
-(function() {
+(function () {
   var rng = window.crypto || window.msCrypto;
   if (rng === undefined)
     return;
 
-  Math.random = function() {
+  Math.random = function () {
     return rng.getRandomValues(new Uint32Array(1))[0] / 4294967296;
   };
 })();
 
-$(document).ready(function() {
+$(document).ready(function () {
   validate();
 });
 
@@ -32,7 +32,7 @@ function saveAs(uri, filename) {
 
 // validate upon page load to handle errors
 function validate() {
-  $('#entries, #entrant-name').keyup(function() {
+  $('#entries, #entrant-name').keyup(function () {
     if ($(this).val() == '') {
       $('.enable').prop('disabled', true);
     } else {
@@ -45,6 +45,18 @@ function validate() {
 let raffleArray = [];
 let winnerHasBeenDrawn = false;
 let currentWinner = null;
+
+const getCurrDate = () => {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const dd = String(now.getDate()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mi = String(now.getMinutes()).padStart(2, '0');
+  const ss = String(now.getSeconds()).padStart(2, '0');
+
+  return `${yyyy}${mm}${dd}${hh}${mi}${ss}`;
+}
 
 // function to randomize array
 const randomize = array => {
@@ -61,14 +73,13 @@ const getRandomInt = (min, max) => {
 };
 
 // function to parse uploaded csv file
-const csvStringToArray = strData =>
-{
-  const objPattern = new RegExp(("(\\,|\\r?\\n|\\r|^)(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|([^\\,\\r\\n]*))"),"gi");
+const csvStringToArray = strData => {
+  const objPattern = new RegExp(("(\\,|\\r?\\n|\\r|^)(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|([^\\,\\r\\n]*))"), "gi");
   let arrMatches = null, arrData = [[]];
-  while (arrMatches = objPattern.exec(strData)){
-    if (arrMatches[1].length && arrMatches[1] !== ",")arrData.push([]);
+  while (arrMatches = objPattern.exec(strData)) {
+    if (arrMatches[1].length && arrMatches[1] !== ",") arrData.push([]);
     arrData[arrData.length - 1].push(arrMatches[2] ?
-      arrMatches[2].replace(new RegExp( "\"\"", "g" ), "\"") :
+      arrMatches[2].replace(new RegExp("\"\"", "g"), "\"") :
       arrMatches[3]);
   }
   return arrData;
@@ -80,16 +91,16 @@ const parseArrayEntries = arr => {
   if (!arr[0] || !arr[0][1] || arr[0][1] !== 'ENTRIES') {
     return entries;
   } else {
-    for(let i = 1; i < arr.length; i++) {
+    for (let i = 1; i < arr.length; i++) {
       const entry = arr[i];
-      if(!entry) {
+      if (!entry) {
         return entries;
       }
 
       const name = entry[0];
       const score = entry[1];
 
-      for(let j = 0; j < score; j++) {
+      for (let j = 0; j < score; j++) {
         entries.push(name);
       }
     }
@@ -143,8 +154,7 @@ const handleCount = (entrantTotal, raffleClone) => {
   $('#count')
     .append(`<hr>`);
   $('#total-entries').html(
-    `<div class="${className('black')}">Total Entries: ${
-      raffleClone.length
+    `<div class="${className('black')}">Total Entries: ${raffleClone.length
     }</div>`
   );
   $('#pick-winner').prop('disabled', false);
@@ -155,8 +165,8 @@ const handleCount = (entrantTotal, raffleClone) => {
 const pickWinner = () => {
   $('#pick-winner').prop('disabled', true);
 
-  const duration = $( "#duration" ).slider( "value" );
-  const delay = $( "#delay" ).slider( "value" );
+  const duration = $("#duration").slider("value");
+  const delay = $("#delay").slider("value");
 
   const raffleClone = [...raffleArray];
   const random = randomize(raffleClone);
@@ -169,7 +179,7 @@ const pickWinner = () => {
     );
     window.setTimeout(() => {
       clearInterval(interval);
-    }, duration*1000);
+    }, duration * 1000);
   }, 100);
 
   setTimeout(() => {
@@ -180,13 +190,13 @@ const pickWinner = () => {
       );
       window.setTimeout(() => {
         clearInterval(slowInterval);
-      }, delay*1000);
+      }, delay * 1000);
     }, 500);
-  }, duration*1000);
+  }, duration * 1000);
 
   window.setTimeout(() => {
     $('#winner').html(
-      `<div class="${className('blue')}">${ drawnEntry }!!</div>`
+      `<div class="${className('blue')}">${drawnEntry}!!</div>`
     );
     winnerHasBeenDrawn = true;
     currentWinner = drawnEntry;
@@ -194,7 +204,7 @@ const pickWinner = () => {
     $('#thankyou-next').prop('disabled', false);
     $('#remove-winner').prop('disabled', true);
     confetti.start();
-  }, duration*1000 + delay*1000 + 650 );
+  }, duration * 1000 + delay * 1000 + 650);
 
 };
 
@@ -228,14 +238,14 @@ const className = color => {
     color === 'green'
       ? 'success'
       : color === 'red'
-      ? 'danger'
-      : color === 'white'
-      ? 'light'
-      : color === 'yellow'
-      ? 'warning'
-      : color === 'blue'
-      ? 'primary'
-      : 'dark';
+        ? 'danger'
+        : color === 'white'
+          ? 'light'
+          : color === 'yellow'
+            ? 'warning'
+            : color === 'blue'
+              ? 'primary'
+              : 'dark';
   return classes;
 };
 
@@ -256,7 +266,7 @@ const handleFileSelect = () => {
     alert("Please select a file before clicking 'Load'");
   }
   else {
-    if ( raffleArray.length > 0 ) {
+    if (raffleArray.length > 0) {
       $('#load-entries').prop('disabled', true);
       $('.load-msg').html(
         `<p id="no-save"><b>Entries are already loaded. Reset or refresh page to load new data.</b></p>`
@@ -269,7 +279,7 @@ const handleFileSelect = () => {
       let fr = new FileReader();
       fr.onload = function () {
         let parsedArray = parseArrayEntries(csvStringToArray(fr.result));
-        if ( parsedArray.length > 0) {
+        if (parsedArray.length > 0) {
           $('#load-entries').prop('disabled', false);
           parsedArray.forEach(name => {
             raffleArray.push(name);
@@ -279,7 +289,7 @@ const handleFileSelect = () => {
           $('.load-msg').html(
             `<p id="no-save"><b>Raffle entries have been loaded successfully.</b></p>`
           );
-          window.setTimeout(function() {
+          window.setTimeout(function () {
             if ($('.load-modal').hasClass('show')) {
               $('.load-modal').modal('toggle');
             }
@@ -295,31 +305,31 @@ const handleFileSelect = () => {
   }
 };
 
-$( function() {
-  $( "#duration" ).slider({
+$(function () {
+  $("#duration").slider({
     range: "max",
     min: 5,
     max: 20,
     value: 10,
-    slide: function( event, ui ) {
-      $( "#slider1value" ).val( ui.value );
+    slide: function (event, ui) {
+      $("#slider1value").val(ui.value);
     }
   });
-  $( "#slider1value" ).val( $( "#duration" ).slider( "value" ) );
-} );
+  $("#slider1value").val($("#duration").slider("value"));
+});
 
-$( function() {
-  $( "#delay" ).slider({
+$(function () {
+  $("#delay").slider({
     range: "max",
     min: 5,
     max: 15,
     value: 5,
-    slide: function( event, ui ) {
-      $( "#slider2value" ).val( ui.value );
+    slide: function (event, ui) {
+      $("#slider2value").val(ui.value);
     }
   });
-  $( "#slider2value" ).val( $( "#delay" ).slider( "value" ) );
-} );
+  $("#slider2value").val($("#delay").slider("value"));
+});
 
 $('#pick-winner').on('click', event => {
   event.preventDefault();
@@ -333,7 +343,7 @@ $('#remove-winner').on('click', event => {
 
   if (winnerHasBeenDrawn && currentWinner != null) {
     winnerHasBeenDrawn = false;
-    removeWinner({target: {id: currentWinner}});
+    removeWinner({ target: { id: currentWinner } });
     currentWinner = null;
     drawnEntry = null;
   }
@@ -352,11 +362,11 @@ $('#thankyou-next').on('click', event => {
   $('#thankyou-next').prop('disabled', true);
 
   html2canvas($("#winner-container"), {
-    onrendered: function(canvas) {
+    onrendered: function (canvas) {
       theCanvas = canvas;
       document.body.appendChild(canvas);
       // Convert and download as image
-      saveAs(canvas.toDataURL(), 'tiwala-grand-winners.png');
+      saveAs(canvas.toDataURL(), `syngenta-rafle-winners-${getCurrDate()}.png`);
       // Clean up
       document.body.removeChild(canvas);
     }
